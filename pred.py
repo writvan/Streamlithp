@@ -4,12 +4,28 @@ import pickle
 import streamlit as st
 
 # loading the saved models
-
 diabetes_model = pickle.load(open('diabetes_model.sav', 'rb'))
-heart_disease_model = pickle.load(open('heart_disease_model.sav','rb'))
+heart_disease_model = pickle.load(open('heart_disease_model.sav', 'rb'))
 parkinsons_model = pickle.load(open('parkinsons_model.sav', 'rb'))
 
-# sidebar for navigation
+# Custom CSS for light theme
+custom_css = """
+<style>
+body {
+    background-color: #f0f0f0;
+    color: #000000;
+}
+.sidebar .sidebar-content {
+    background-color: #ffffff;
+}
+.Widget.stButton, .Widget.stButton>button {
+    color: #000000;
+    background-color: #ffffff;
+}
+</style>
+"""
+st.markdown(custom_css, unsafe_allow_html=True)
+
 selected = st.sidebar.radio(
     'Multiple Disease Prediction System',
     ['Diabetes Prediction', 'Heart Disease Prediction', 'Parkinsons Prediction']
@@ -50,8 +66,8 @@ if selected == 'Diabetes Prediction':
     # code for Prediction
     diab_diagnosis = ''
 
-    # creating a button for Prediction
-    if st.button('Diabetes Test Result'):
+    # creating a button for Prediction with black and white style
+    if st.button('Diabetes Test Result', key='diabetes_button', help='This is a button to trigger the diabetes prediction'):
         diab_prediction = diabetes_model.predict([[Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin, BMI, DiabetesPedigreeFunction, Age]])
 
         if diab_prediction[0] == 1:
@@ -110,8 +126,8 @@ elif selected == 'Heart Disease Prediction':
     # code for Prediction
     heart_diagnosis = ''
 
-    # creating a button for Prediction
-    if st.button('Heart Disease Test Result'):
+    # creating a button for Prediction with black and white style
+    if st.button('Heart Disease Test Result', key='heart_button', help='This is a button to trigger the heart disease prediction'):
         heart_prediction = heart_disease_model.predict([[age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]])
 
         if heart_prediction[0] == 1:
@@ -197,8 +213,8 @@ elif selected == "Parkinsons Prediction":
     # code for Prediction
     parkinsons_diagnosis = ''
 
-    # creating a button for Prediction
-    if st.button("Parkinson's Test Result"):
+    # creating a button for Prediction with black and white style
+    if st.button("Parkinson's Test Result", key='parkinsons_button', help="This is a button to trigger the Parkinson's disease prediction"):
         parkinsons_prediction = parkinsons_model.predict(
             [[fo, fhi, flo, Jitter_percent, Jitter_Abs, RAP, PPQ, DDP, Shimmer, Shimmer_dB, APQ3, APQ5, APQ, DDA, NHR, HNR,
               RPDE, DFA, spread1, spread2, D2, PPE]])
